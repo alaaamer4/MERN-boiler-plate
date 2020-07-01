@@ -1,8 +1,16 @@
 const express = require("express");
 const app = express();
-const connectDB = require("./config/mongoDB");
-app.use("/", (req, res) => {
-  res.send("hello there");
-});
+const connectDB = require("./server/config/mongoDB");
+const user = require("./server/routes/user");
+const auth = require("./server/routes/auth");
 connectDB();
-app.listen(5000, () => console.log("listening to port 5000"));
+
+// body parser
+app.use(express.json());
+// routes
+app.use("/api/user", user);
+app.use("/api/auth", auth);
+
+// connection
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`connected to port ${PORT}`));
