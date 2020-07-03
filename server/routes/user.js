@@ -52,7 +52,9 @@ router.post(
       user.password = await bcrypt.hash(password, salt);
       await user.save();
       const payload = {
-        id: user.id,
+        user: {
+          id: user.id,
+        },
       };
       jwt.sign(payload, jwtSecret, (err, token) => {
         if (err) throw err;

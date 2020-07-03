@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const config = require("../config/key");
 const jwtSecret = config.jwtSecret;
 module.exports = function (req, res, next) {
   // get token from header
@@ -12,14 +13,20 @@ module.exports = function (req, res, next) {
   }
   // verify token
   try {
-    const decoded = jwt.verify(token, jwtSecret);
-    // save token in the user in request
-    req.user = decoded;
-    next();
-  } catch (error) {
-    res.status(401).json({
+    jwt.verify(token, jwtSecret, (error, decoded) => {
+      if (error) {
+        return res.status(401).json({ err: "Token is not valid" });
+      } else {
+        // save token in the user in request
+        req.user = decoded.user;
+        next();
+      }
+    });
+  } catch (err) {
+    console.log("something went wrong");
+    res.status(500).json({
       success: false,
-      err: "invalid token , authorization denied",
+      err: "server error",
     });
   }
 };

@@ -8,8 +8,10 @@
   },
   "main": "app.js",
   "scripts": {
-    "dev": "node app.js",
-    "start": "nodemon app.js"
+    "node": "node app.js",
+    "server": "nodemon app.js",
+    "client": "npm start  --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "Mo Alaa",
   "license": "ISC",
@@ -19,9 +21,11 @@
     "express": "^4.17.1",
     "express-validator": "^6.6.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.9.20"
+    "mongoose": "^5.9.20",
+    "react-loader-spinner": "^3.1.14"
   },
   "devDependencies": {
+    "concurrently": "^5.2.0",
     "nodemon": "^2.0.4"
   }
 }
